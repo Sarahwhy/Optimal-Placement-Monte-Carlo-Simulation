@@ -1,107 +1,3 @@
-setwd("~/Documents/Graduate/Fall Semester/IND ENG 222/Final Project")
-
-tmp <- read.csv("~/Dropbox/IEOR 222/wmt 05062010 LOB.csv")
-
-# CLEAN THE DATA
-
-indi <- matrix(nrow=nrow(tmp), ncol=3)
-indi[,1] <- tmp$TVITCH_41..WMT.BID_PRICE1..TVITCH_41__WMT
-indi[,2] <- tmp$TVITCH_41..WMT.ASK_PRICE1..TVITCH_41__WMT
-indi[,3] <- round(indi[,2]-indi[,1],digits = 2)
-ftmp <- tmp[c(TRUE, abs(indi[2:40001,2]-indi[1:40000,2]) >= 1e-06),]
-ftmp <- ftmp[ftmp$Index < 40000,]
-ftmp$d <- as.integer(ftmp$d*100)
-
-#ftmp <- read.csv("splitted_WMT_2010.csv")
-
-
-# Show liquidity
-x <- round(indi[,2]-indi[,1], digits = 2)
-plot(x, main="Spread for WMT 05062010", 
-     xlab="Index", ylab="Spread", pch=20)
-table(x)
-
-# Spread
-table(round(ftmp$TVITCH_41..WMT.ASK_PRICE1..TVITCH_41__WMT-ftmp$TVITCH_41..WMT.BID_PRICE1..TVITCH_41__WMT, digits = 2))
-# Movement of best ask
-table(round(diff(ftmp$TVITCH_41..WMT.ASK_PRICE1..TVITCH_41__WMT),digits = 2))
-
-
-tmp2 <- read.csv("wmt 05102012 LOB.csv")
-
-indi2 <- matrix(nrow=nrow(tmp2), ncol=3)
-indi2[,1] <- tmp2$TVITCH_41..WMT.BID_PRICE1..TVITCH_41__WMT
-indi2[,2] <- tmp2$TVITCH_41..WMT.ASK_PRICE1..TVITCH_41__WMT
-indi2[,3] <- round(indi2[,2]-indi2[,1],digits = 2)
-ftmp2 <- tmp2[c(TRUE, abs(indi2[2:nrow(tmp2),2]-indi2[1:nrow(tmp2)-1,2]) >= 1e-06),]
-ftmp2$d <- as.integer(ftmp2$d*100)
-
-ftmp2 <- read.csv("splitted_WMT_2012.csv")
-
-x2 <- round(indi2[,2]-indi2[,1], digits = 2)
-plot(x2, main="Spread for WMT 05102012", 
-     xlab="Index", ylab="Spread", pch=20)
-table(x2)
-
-table(round(ftmp2$TVITCH_41..WMT.ASK_PRICE1..TVITCH_41__WMT-ftmp2$TVITCH_41..WMT.BID_PRICE1..TVITCH_41__WMT, digits = 2))
-table(round(diff(ftmp2$TVITCH_41..WMT.ASK_PRICE1..TVITCH_41__WMT),digits = 2))
-
-
-tmp3 <- read.csv("ms 05062010 LOB.csv")
-
-indi3 <- matrix(nrow=nrow(tmp3), ncol=3)
-indi3[,1] <- tmp3$TVITCH_41..MS.BID_PRICE1
-indi3[,2] <- tmp3$TVITCH_41..MS.ASK_PRICE1
-indi3[,3] <- round(indi3[,2]-indi3[,1],digits = 2)
-ftmp3 <- tmp3[c(TRUE, abs(indi3[2:40001,2]-indi3[1:40000,2]) >= 1e-06),]
-ftmp3 <- ftmp3[ftmp3$Index < 40000,]
-ftmp3$d <- as.integer(ftmp3$d*100)
-
-ftmp3 <- read.csv("splitted_ms_2010.csv")
-
-x3 <- round(indi3[,2]-indi3[,1], digits = 2)
-plot(x3, main="Spread for MS 05062010", 
-     xlab="Index", ylab="Spread", pch=20)
-table(x3)
-
-table(round(ftmp3$TVITCH_41..MS.ASK_PRICE1-ftmp3$TVITCH_41..MS.BID_PRICE1, digits = 2))
-table(round(diff(ftmp3$TVITCH_41..MS.ASK_PRICE1),digits = 2))
-
-
-tmp4 <- read.csv("ms 05102012 LOB.csv")
-
-indi4 <- matrix(nrow=nrow(tmp4), ncol=3)
-indi4[,1] <- tmp4$TVITCH_41..MS.BID_PRICE1
-indi4[,2] <- tmp4$TVITCH_41..MS.ASK_PRICE1
-indi4[,3] <- round(indi4[,2]-indi4[,1],digits = 2)
-ftmp4 <- tmp4[c(TRUE, abs(indi4[2:nrow(tmp4),2]-indi4[1:nrow(tmp4)-1,2]) >= 1e-06),]
-ftmp4$d <- as.integer(ftmp4$d*100)
-
-ftmp4 <- read.csv("splitted_ms_2012.csv")
-
-x4 <- round(indi4[,2]-indi4[,1], digits = 2)
-plot(x4, main="Spread for MS 05102012", 
-     xlab="Index", ylab="Spread", pch=20)
-table(x4)
-
-table(round(ftmp4$TVITCH_41..MS.ASK_PRICE1-ftmp4$TVITCH_41..MS.BID_PRICE1, digits = 2))
-table(round(diff(ftmp4$TVITCH_41..MS.ASK_PRICE1),digits = 2))
-
-write.csv(ftmp,"WMT2010.csv")
-write.csv(ftmp2,"WMT2012.csv")
-write.csv(ftmp3,"MS2010.csv")
-write.csv(ftmp4,"MS2012.csv")
-
-attach(mtcars)
-par(mfrow=c(2,2),oma=c(0,0,0,0),mar=c(2,2,2,2))
-plot(x, main="WMT 05062010", 
-     xlab="Index", ylab="Spread", pch=20)
-plot(x2, main="WMT 05102012", 
-     xlab="Index", ylab="Spread", pch=20)
-plot(x3, main="MS 05062010", 
-     xlab="Index", ylab="Spread", pch=20)
-plot(x4, main="MS 05102012", 
-     xlab="Index", ylab="Spread", pch=20)
 
 # PARAMETER ESTIMATION
 
@@ -258,6 +154,7 @@ PracticeofMStrategy <- function(t1, t2, q, subdata, n){
   }
   return (sum(MCost*MInd)+(1-q)^k*(step[i]))
 }
+
 PracticeofMStrategy(t1, t2, q, subdata, n)
 
 SingleStrategy <- function(data,I,q,p,n) {
@@ -291,10 +188,6 @@ SingleStrategy <- function(data,I,q,p,n) {
 }
 SingleStrategy(ftmp, 200, 0.2, p, 25)
 
-z <- vector(mode='numeric',length=10)
-for (l in 1:10){
-  z [l] <- SimulationforC(k, q, p, n, pbar, N)
-}
-minOfRows=apply(x, 1, function(x) min(x))
+
 
 
